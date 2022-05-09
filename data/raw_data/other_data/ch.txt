@@ -1,0 +1,2 @@
+info;12345;False
+general-racing-chat;67890;True

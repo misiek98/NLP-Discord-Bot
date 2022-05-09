@@ -1,0 +1,13 @@
+{
+    "message": "Seems like you're looking for stream. Make sure you've checked <#758337633356087348> channel.\nStill having trouble? Please wait, maybe someone else will help you!",
+    "token": "token",
+    "banTime": 1800,
+    "predTolerance": 0.2,
+    "dbname": "name",
+    "schema": "streamer",
+    "user": "postgres",
+    "password": "password",
+    "host": "localhost",
+    "pathToModel": "C:\\Users\\Misiek\\Desktop\\Python\\raceday\\model\\model.h5",
+    "pathToVocab": "C:\\Users\\Misiek\\Desktop\\t_db\\model_vocab.json"
+}
