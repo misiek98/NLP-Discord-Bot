@@ -2,47 +2,38 @@ from discord.ext import commands
 import tensorflow
 
 from cogs.db_methods import DBMethods
-from cogs.msg_processing import MessagePreparator
 from cogs.other_methods import current_time, load_config
 
 config = load_config(
-    r'C:\Users\Misiek\Desktop\Python\raceday\Source\config.json')
+    r'C:\Users\Misiek\Desktop\Python\NLP\Source\config.json')
 
 model = tensorflow.keras.models.load_model(config['pathToModel'])
 
 db_conn = DBMethods()
-msg_manager = MessagePreparator()
 
 users = db_conn.get_data(
     column_name='user_id, user_role',
-    table_name='discord_users'
-)
+    table_name='discord_users')
 team_members = [
     user.user_id
     for user in users
     if user.user_role != 'Member'
-    if user.user_role != 'BOT'
-]
+    if user.user_role != 'BOT']
 bots = [
     user.user_id
     for user in users
-    if user.user_role == 'BOT'
-]
+    if user.user_role == 'BOT']
 users = [
     user.user_id
     for user in users
-    if user.user_role == 'Member'
-]
-
+    if user.user_role == 'Member']
 channels = db_conn.get_data(
     column_name='channel_id, is_evaluated',
-    table_name='discord_channels'
-)
+    table_name='discord_channels')
 channels = [
     channel.channel_id
     for channel in channels
-    if channel.is_evaluated
-]
+    if channel.is_evaluated]
 
 client = commands.Bot(command_prefix='.')
 
@@ -53,23 +44,7 @@ async def on_message(message):
     user_id = message.author.id
     msg = message.content
 
-    msg_lower_letters = msg_manager.lower_letters(
-        msg=msg
-    )
-    msg_without_special_characters = msg_manager.drop_special_characters(
-        msg=msg_lower_letters
-    )
-    seq = msg_manager.prepare_sequence(
-        msg=msg_without_special_characters
-    )
-
-    X = tensorflow.keras.preprocessing.sequence.pad_sequences(
-        sequences=[seq],
-        maxlen=15,
-        padding='post'
-    )
-
-    prediction = round(float(model.predict(X)[0][0]), 4)
+    prediction = round(float(model.predict([msg], verbose=0)[0][0]), 4)
 
     if (user_id not in bots):
         db_conn.add_message(
