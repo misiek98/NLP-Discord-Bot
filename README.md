@@ -23,7 +23,6 @@ The model achieves about 96% success rate, and when tested on real data (during 
 
 ## Future work
 
-Also noted that new words that the model has never seen appear very quickly. Therefore, it may be necessary to prepare a new model every now and then.\
 The next stage of the project will be dockerizing and putting it on an external server.
 
 ## Installation
